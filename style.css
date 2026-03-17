@@ -1,0 +1,61 @@
+body {
+    /* Pfad zur Bildquelle - Lokal oder Remote-URL */
+    background-image: url('imgs/bigsky.jpg');
+
+    /* Verhindert die Endlosschleife (Kachelung) des Bildes */
+    background-repeat: no-repeat;
+
+    /* Fixiert das Bild im Viewport, damit es beim Scrollen nicht mitwandert (Cyberpunk-Parallax-Vibe) */
+    background-attachment: fixed;
+
+    /* Skaliert das Bild, um den gesamten Container zu fluten, ohne das Seitenverhältnis zu korrumpieren */
+    background-size: cover;
+
+    /* Zentriert den Fokuspunkt des Bildes */
+    background-position: center;
+
+    /* Fallback: Falls der Datentransfer des Bildes scheitert (Timeout), 
+       bleibt der Hintergrund schwarz für maximale Lesbarkeit. */
+    background-color: #000;
+}
+
+audio {
+    filter: invert(100%) hue-rotate(180deg) brightness(1.5); /* Passt Farben an Cyberpunk-Themen an */
+    width: 250px;
+    height: 35px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-in-out;
+}
+
+audio:hover {
+    opacity: 1;
+}
+
+.status-panel {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 600px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Subtile Trennlinie */
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: #ccc;           /* Gedämpftes Weiß/Grau */
+    text-align: center;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.contact-line {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.mail-link {
+    color: #00bcff;        /* Ein dezentes Blau für Links */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.mail-link:hover {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
