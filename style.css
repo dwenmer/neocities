@@ -1,26 +1,44 @@
+/* ============================================================
+   A. Basis-Styles & Layout
+   ============================================================ */
+
 body {
-    /* Pfad zur Bildquelle - Lokal oder Remote-URL */
-    background-image: url('imgs/bigsky.jpg');
-
-    /* Verhindert die Endlosschleife (Kachelung) des Bildes */
-    background-repeat: no-repeat;
-
-    /* Fixiert das Bild im Viewport, damit es beim Scrollen nicht mitwandert (Cyberpunk-Parallax-Vibe) */
-    background-attachment: fixed;
-
-    /* Skaliert das Bild, um den gesamten Container zu fluten, ohne das Seitenverhältnis zu korrumpieren */
-    background-size: cover;
-
-    /* Zentriert den Fokuspunkt des Bildes */
-    background-position: center;
-
-    /* Fallback: Falls der Datentransfer des Bildes scheitert (Timeout), 
-       bleibt der Hintergrund schwarz für maximale Lesbarkeit. */
-    background-color: #000;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Verhindert Scrollbars, wenn Container fixiert ist */
+    background-color: #000; /* Tiefschwarzer Fallback */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Der Container, der das Universum darstellt. 
+   Wichtig für die absolute Positionierung der Sterne.
+*/
+#starfield-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Verhindert, dass Sterne aus dem Bild fliegen */
+}
+
+/* Dein Original-Hintergrundcode, jetzt auf den Container angewendet */
+.cyberpunk-sky {
+    background-image: url('imgs/bigsky.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+/* ============================================================
+   B. Dein bestehender Content (leicht angepasst für z-index)
+   ============================================================ */
+
 audio {
-    filter: invert(100%) hue-rotate(180deg) brightness(1.5); /* Passt Farben an Cyberpunk-Themen an */
+    position: absolute; /* Über dem Himmel fixiert */
+    top: 20px;
+    left: 20px;
+    z-index: 100; /* Immer ganz oben */
+    filter: invert(100%) hue-rotate(180deg) brightness(1.5);
     width: 250px;
     height: 35px;
     opacity: 0.7;
@@ -32,15 +50,21 @@ audio:hover {
 }
 
 .status-panel {
-    margin: 40px auto;
-    padding: 20px;
+    position: absolute; /* Über dem Himmel fixiert */
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%); /* Zentrierung */
+    width: 90%;
     max-width: 600px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Subtile Trennlinie */
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    color: #ccc;           /* Gedämpftes Weiß/Grau */
+    z-index: 90;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ccc;
     text-align: center;
     font-size: 0.9em;
     line-height: 1.6;
+    background: rgba(0, 0, 0, 0.5); /* Leichter Hintergrund für Lesbarkeit */
+    border-radius: 5px;
 }
 
 .contact-line {
@@ -49,7 +73,7 @@ audio:hover {
 }
 
 .mail-link {
-    color: #00bcff;        /* Ein dezentes Blau für Links */
+    color: #00bcff;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: all 0.3s ease;
@@ -59,3 +83,117 @@ audio:hover {
     color: #fff;
     border-bottom: 1px solid #fff;
 }
+
+/* ============================================================
+   [ABSCHNITT C: Interaktive Sterne] - UPDATE
+   ============================================================ */
+
+/*
+   Die unsichtbare Hitbox (unverändert)
+*/
+.star-anchor {
+    position: absolute;
+    width: 60px;  /* Hitbox */
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    z-index: 50; 
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+/* Der visuelle Kreis - UPDATE für Pulsieren
+*/
+.star-reveal-circle {
+    position: absolute;
+    width: 10px; /* Klein im Ruhezustand */
+    height: 10px;
+    border-radius: 50%;
+    
+    /* NEU: Kaltes Weiß im Ruhezustand */
+    background: rgb(230, 245, 255); /* Kaltes, bläuliches Weiß */
+    box-shadow: 0 0 4px 1px rgba(180, 220, 255, 0.4); /* Subtiles blaues Glühen */
+    opacity: 0.4; /* Angedeutet sichtbar */
+    
+    transition: all 2.5s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    /* NEU: Idle-Puls-Animation aktivieren */
+    animation: pulse-white 3s infinite ease-in-out;
+}
+
+/* NEU: Definition der Puls-Animation
+   Erzeugt ein langsames, atmendes Glimmen im Ruhezustand.
+*/
+@keyframes pulse-white {
+    0% {
+        opacity: 0.4;
+        box-shadow: 0 0 4px 1px rgba(180, 220, 255, 0.4);
+    }
+    50% {
+        opacity: 0.7; /* Wird heller */
+        box-shadow: 0 0 8px 2px rgba(200, 240, 255, 0.6); /* Breiteres Glühen */
+    }
+    100% {
+        opacity: 0.4;
+        box-shadow: 0 0 4px 1px rgba(180, 220, 255, 0.4);
+    }
+}
+
+/* Der Text, der sich offenbart (unverändert)
+*/
+.star-text {
+    position: absolute;
+    top: 70px;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 2.5s ease 0.5s;
+}
+
+/* ============================================================
+   [ABSCHNITT D: Interaktions-Zustände] - UPDATE
+   ============================================================ */
+
+/*
+   Hover-Effekt (Desktop) - UPDATE
+*/
+@media (hover: hover) {
+    .star-anchor:hover .star-reveal-circle {
+        /* Wenn gehovert wird, die Puls-Animation stoppen für den vollen Glow */
+        animation-play-state: paused; 
+        
+        width: 40px; 
+        height: 40px;
+        opacity: 1;
+        background: white; /* Umschalten auf reines Weiß */
+        box-shadow: 0 0 20px 8px rgba(255, 255, 255, 0.7);
+    }
+
+    .star-anchor:hover .star-text {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Zustand für mobile Geräte (durch JS-Klasse gesteuert)
+*/
+.star-anchor.is-touched .star-reveal-circle {
+    animation-play-state: paused; /* Auch hier Animation stoppen */
+    width: 50px; 
+    height: 50px;
+    opacity: 1;
+    background: white;
+    box-shadow: 0 0 25px 10px rgba(255, 255, 255, 0.8);
+}
+
+.star-anchor.is-touched .star-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Die restlichen Styles (Audio, Status-Panel) bleiben unverändert. */
