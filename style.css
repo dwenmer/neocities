@@ -197,3 +197,76 @@ audio:hover {
 }
 
 /* Die restlichen Styles (Audio, Status-Panel) bleiben unverändert. */
+
+.back-link {
+    display: inline-block;
+    margin-top: 40px; 
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    
+    /* Rahmen & Rundung */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 20px; 
+    padding: 10px 25px;
+
+    /* UPDATE: Langsamere Transition (1.2s) mit sanfter Kurve */
+    /* Wir animieren alle Eigenschaften (opacity, background, box-shadow) */
+    transition: all 1.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-link:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.12); 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 0 8px #fff;
+    
+    /* Optional: Ein minimales Vergrößern verstärkt das Gefühl des Aufglimmens */
+    transform: scale(1.03);
+}
+
+/* Die Absätze im Steckbrief */
+.creator-stats p {
+    color: #fff;
+    margin: 15px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    text-align: center;
+    
+    /* Sofortiger Start beider Animationen ohne Delay */
+    animation: 
+        fade-in-line 1.5s ease-out forwards, 
+        text-glow 4s infinite ease-in-out;
+}
+
+/* Animation 1: Einmaliges Erscheinen beim Laden */
+@keyframes fade-in-line {
+    from { 
+        opacity: 0; 
+        filter: blur(8px);
+        transform: translateY(10px);
+    }
+    to { 
+        opacity: 1; 
+        filter: blur(0px);
+        transform: translateY(0);
+    }
+}
+
+/* Animation 2: Permanentes, starkes Pulsieren */
+@keyframes text-glow {
+    0%, 100% { 
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        color: #ccc;
+    }
+    50% { 
+        /* Verstärktes Leuchten für bessere Sichtbarkeit */
+        text-shadow: 
+            0 0 15px #fff, 
+            0 0 25px rgba(0, 188, 255, 0.5); 
+        color: #fff;
+    }
+}

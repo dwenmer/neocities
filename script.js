@@ -7,7 +7,9 @@
 const starData = [
     { text: "Experience Crossroads", url: "https://roton.me/nexus" },
     { text: "Listen to the Static", url: "https://roton.me/logs" },
-    { text: "Meet the Creator", url: "https://roton.me/stream" }
+    { text: "Read the Archives", url: "https://roton.me/logs" },
+    { text: "Visit the Ancient Gods", url: "https://roton.me/logs" },
+    { text: "Meet the Creator", url: "contact.html" }
 ];
 
 // Konfiguration des Himmels und der Platzierung
@@ -83,10 +85,10 @@ function initializeStars() {
     const isTouchDevice = 'ontouchstart' in window;
 
     // 1. Die 3 gültigen Positionen berechnen
-    const positions = calculateNonOverlappingPositions(3);
+    const positions = calculateNonOverlappingPositions(starData.length);
 
     // 2. DOM-Elemente basierend auf den Positionen erstellen
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < starData.length; i++) {
         const anchor = document.createElement('a');
         anchor.className = 'star-anchor';
         anchor.href = starData[i].url;

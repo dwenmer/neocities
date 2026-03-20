@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crossroads // creator profile</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Spezifisches Design für diese Seite */
+        body {
+            /* Dein Hintergrundbild (Finsternis) */
+            background-image: url('imgs/mathew-schwartz.jpg');
+            /* HIER ANPASSEN */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-color: #000;
+
+            /* Flexbox für vertikale und horizontale Zentrierung */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            /* Verhindert Scrollbars im Kern */
+        }
+
+        /* Der zentrale Fokuspunkt im Kern der Finsternis */
+        .creator-focus {
+            text-align: center;
+            color: #fff;
+            max-width: 600px;
+            width: 80%;
+            /* Leichte Verzögerung beim Laden für atmosphärischen Effekt */
+            animation: core-reveal 2s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Definition der Enthüllungs-Animation */
+        @keyframes core-reveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+                filter: blur(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0px);
+            }
+        }
+
+        /* Creator Profilbild (rund & neon-glühend) */
+        .creator-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Verhindert Verzerrung */
+            border: 2px solid rgba(0, 188, 255, 0.5);
+            /* Kaltes Blau */
+            box-shadow: 0 0 15px 5px rgba(0, 188, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        /* Der Name (als Cyberpunk-H1) */
+        .creator-name {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 2em;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0 0 15px 0;
+            text-shadow: 0 0 10px #fff, 0 0 20px #00bcff;
+        }
+
+        /* Die Steckbrief-Details (Courier für den Terminal-Vibe) */
+        .creator-stats {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        /* Rück-Link (Raus aus dem Fokus, nach unten) */
+        .back-link-container {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00bcff;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #00bcff;
+        }
+    </style>
+</head>
+
+<body>
+    <audio controls loop id="ambient-stasis">
+        <source src="sounds/dwenmer_theme.wav" type="audio/mpeg">
+        Dein Browser unterstützt das Audio-Element nicht. System-Upgrade erforderlich.
+    </audio>
+
+    <div class="creator-focus">
+
+        <img src="imgs/103queenthumb.jpg" alt="Creator Avatar" class="creator-avatar">
+
+        <h1 class="creator-name">dwenmer</h1>
+        <br>
+        <div class="creator-stats">
+            <p>It is always the same black circle. It is always the same lonely longing for a non-existent ideal. A
+                constant failure.
+            <p>
+                Be respectful, wanderer. For this is the graveyard of my dreams.
+            </p>
+            <p>
+                Share your dead stars with me: dwenmer[at]proton.me</p>
+            </p>
+
+        </div>
+        <p>
+            <a class="back-link" href="index.html" class="back-link">Return</a>
+        </p>
+    </div>
+
+</body>
+
+</html>
