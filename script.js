@@ -7,8 +7,8 @@
 const starData = [
     { text: "Experience Crossroads", url: "https://roton.me/nexus" },
     { text: "Listen to the Static", url: "https://roton.me/logs" },
-    { text: "Read the Archives", url: "https://roton.me/logs" },
-    { text: "Visit the Ancient Gods", url: "https://roton.me/logs" },
+    { text: "Read the Archives", url: "archives.html" },
+    { text: "Visit the Ancient Gods", url: "oldgods.html" },
     { text: "Meet the Creator", url: "contact.html" }
 ];
 
@@ -92,7 +92,7 @@ function initializeStars() {
         const anchor = document.createElement('a');
         anchor.className = 'star-anchor';
         anchor.href = starData[i].url;
-        anchor.target = "_blank"; 
+        anchor.target = "_self"; 
         
         // Position aus dem berechneten Array zuweisen
         anchor.style.left = `${positions[i].x}%`;
@@ -132,3 +132,91 @@ function resetAllStars() {
 
 // Starten, sobald das DOM bereit ist
 document.addEventListener('DOMContentLoaded', initializeStars);
+
+/**
+ * Ancient Gods Shrine Logic
+ * Generiert interaktive Kerne in der Lichtsäule.
+ */
+
+// Konfiguration der "Götter" (Daten)
+const godData = [
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Creator 01", title: "THE ARCHITECT", text: "Inspired the Neural Net interface and the concept of crossroads.", img: "imgs/oldgods.jpg" },
+    { name: "Medienkollektiv 'VOID'", title: "CYBERPUNK PARALLAX", text: "Defined the static-audio aesthetic and deep-space vibe.", img: "imgs/oldgods.jpg" },
+    { name: "D. Wenmer", title: "STASIS TRANSMITTER", text: "The primary operational voice for this channel.", img: "imgs/oldgods.jpg" }
+    // Weitere Einträge hier hinzufügen...
+];
+
+function initializeAncientGods() {
+    const beam = document.getElementById('shrine-beam');
+    const modal = document.getElementById('god-info-modal');
+    const modalContent = document.getElementById('modal-content');
+    const closeBtn = document.querySelector('.modal-close');
+
+    // Nur innerhalb des schmalen Beams positionieren
+    // Wir benötigen keine Safe Zone, da der Beam schmal ist.
+   for (let i = 0; i < godData.length; i++) {
+    let posX, posY;
+    let isValid = false;
+
+    // Schleife läuft, bis eine Position AUẞERHALB des Knochens gefunden wird
+    while (!isValid) {
+        posX = Math.random() * 60 + 20; // 20% bis 80% Breite
+        posY = Math.random() * 90 + 5;  // 5% bis 95% Höhe
+
+        // PRÜFUNG: Liegt der Punkt im Knochen-Bereich (z.B. zwischen 35% und 55%)?
+        if (posY < 35 || posY > 55) {
+            isValid = true; // Position ist im Licht (oben oder unten), also gültig
+        }
+    }
+
+    const core = document.createElement('div');
+    core.className = 'god-core';
+    core.style.left = `${posX}%`;
+    core.style.top = `${posY}%`;
+        core.title = godData[i].name; // Tooltip beim Hover
+
+        // 2. Klick-Event für das Modal
+        core.addEventListener('click', () => {
+            // Inhalt für das Modal zusammensetzen
+            modalContent.innerHTML = `
+                <div style="display: flex; gap: 20px;">
+                    <img src="${godData[i].img}" alt="${godData[i].name}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+                    <div>
+                        <h3 style="color: #ffcc00; font-family: 'Courier New', monospace; letter-spacing: 3px;">${godData[i].title}</h3>
+                        <h4 style="color: #fff; margin-bottom: 10px;">${godData[i].name}</h4>
+                        <p style="color: #bbb; line-height: 1.6;">${godData[i].text}</p>
+                    </div>
+                </div>
+            `;
+            // Modal sichtbar machen
+            modal.classList.remove('modal-hidden');
+            modal.classList.add('modal-visible');
+        });
+
+        // In den Beam injizieren
+        beam.appendChild(core);
+    }
+
+    // Modal schließen Events
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('modal-hidden');
+        modal.classList.remove('modal-visible');
+    });
+
+    modal.addEventListener('click', (e) => {
+        // Schließen, wenn man außerhalb des Frames klickt
+        if (e.target === modal) {
+            modal.classList.add('modal-hidden');
+            modal.classList.remove('modal-visible');
+        }
+    });
+}
+
+// Starten, sobald das DOM bereit ist
+document.addEventListener('DOMContentLoaded', initializeAncientGods);

@@ -270,3 +270,167 @@ audio:hover {
         color: #fff;
     }
 }
+
+/* ============================================================
+   A. Basis-Layout für den Schrein
+   ============================================================ */
+#ancient-gods-shrine {
+    position: relative;
+    width: 100%;
+    /* WICHTIG: Ersetzt 'aspect-ratio' durch 'min-height', 
+       um sicherzustellen, dass der Container Platz einnimmt */
+    min-height: 100vh; 
+    background-color: #000; /* Fallback, damit es nicht weiß ist */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.full-bg-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    /* Zentriert das Bild und skaliert es wie ein Hintergrundbild */
+    transform: translate(-50%, -50%);
+    object-fit: cover; 
+    z-index: 1; 
+}
+
+/* Stelle sicher, dass der Beam ÜBER dem Bild liegt */
+#shrine-beam {
+    position: absolute;
+    z-index: 10;
+    width: 100px; /* Testwert für die Breite der Lichtsäule */
+    height: 80%;
+    /* background: rgba(255,0,0,0.2);  <-- Entferne das Kommentarzeichen zum Testen! */
+}
+
+.shrine-background {
+    background-image: url('imgs/oldgods.jpg'); /* HIER BILD ANPASSEN */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/* Container für die Lichtsäule. 
+   Diese Werte müssen an die Position im Bild angepasst werden.
+   Schätzung: Mittig, schmal.
+*/
+#shrine-beam {
+    position: absolute;
+    top: 50%; /* Zentriert sich im Schädel-Auge */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Exakte Zentrierung */
+    width: 8%;  /* Sehr schmal, nur die Lichtsäule */
+    height: 90%; /* Reicht von oben bis unten */
+    z-index: 50;
+    /* transition nur für position, falls wir es später animieren */
+}
+
+/* ============================================================
+   B. Die Minibuttons (Götter-Kerne) - SUPERNOVA UPGRADE
+   ============================================================ */
+
+.god-core {
+    position: absolute;
+    width: 8px; /* Basisgröße belassen, damit sie nicht klobig wirken */
+    height: 8px;
+    background: #fff; /* Reinweiß im Kern */
+    border-radius: 50%;
+    
+    /* Verstärkter Idle-Glow (Warm/Neon Mix) */
+    box-shadow: 
+        0 0 10px 2px rgba(255, 255, 255, 0.8), /* Weißer Kern */
+        0 0 20px 5px rgba(255, 200, 100, 0.6), /* Warmer Halo */
+        0 0 30px 10px rgba(0, 188, 255, 0.3); /* Cyber Blue */
+    
+    cursor: pointer;
+    z-index: 60;
+    transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Hover-Effekt: Supernova / Kleine Sonnen
+*/
+.god-core:hover {
+    /* Moderatere Skalierung (x4 statt x6) */
+    transform: scale(4) rotate(135deg); 
+    
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.7s ease-out, box-shadow 0.7s ease-out; 
+
+    /* KOMPAKTER GLOW (Nur 3 statt 6 Layer)
+       Wir konzentrieren das Licht nah am Kern.
+    */
+    box-shadow: 
+        0 0 10px 2px #fff,                        /* Kern-Glow */
+        0 0 20px 8px rgba(255, 255, 150, 0.8),    /* Warme Korona */
+        0 0 40px 15px rgba(255, 200, 100, 0.4);   /* Äußerster Saum */
+    
+    /* Sanfteres Flackern */
+    animation: sun-glow-subtle 2s infinite alternate ease-in-out;
+}
+
+/* NEU: Definition der Supernova-Flarer-Animation
+   Läßt den Glow-Radius im Hover-Zustand flackern.
+*/
+@keyframes sun-glow-subtle {
+    0% {
+        box-shadow: 0 0 10px 2px #fff, 0 0 20px 8px rgba(255, 255, 150, 0.8), 0 0 40px 15px rgba(255, 200, 100, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 12px 4px #fff, 0 0 25px 10px rgba(255, 255, 150, 0.9), 0 0 50px 20px rgba(255, 200, 100, 0.5);
+    }
+}
+/* NEU: Idle-Puls-Animation für die Götter-Kerne
+*/
+@keyframes core-idle-pulse {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1);
+        box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7), 0 0 20px 5px rgba(255, 200, 100, 0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1); /* Minimales "Atmen" */
+        box-shadow: 0 0 15px 4px #fff, 0 0 30px 8px rgba(255, 200, 100, 0.7);
+    }
+}
+/* ============================================================
+   C. Das Info-Fenster (Modal)
+   ============================================================ */
+
+#god-info-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.85); /* Stark abdunkelnd */
+    z-index: 1000; /* Immer ganz oben */
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.modal-hidden { opacity: 0; pointer-events: none; }
+.modal-visible { opacity: 1; pointer-events: auto; }
+
+.modal-frame {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 200, 100, 0.3); /* Warmer Rand */
+    border-radius: 5px;
+    padding: 30px;
+    width: 80%; max-width: 700px;
+    color: #ccc;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    position: relative;
+    backdrop-filter: blur(5px);
+}
+
+.modal-close {
+    position: absolute; top: 10px; right: 15px;
+    color: #ff9900; font-family: monospace;
+    cursor: pointer; font-size: 1.2em;
+}
+
+.modal-close:hover { color: #fff; text-shadow: 0 0 5px #ff9900; }
